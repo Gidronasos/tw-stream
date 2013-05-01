@@ -1,6 +1,10 @@
 # Django settings for tw_stream project.
 
 import os
+import djcelery
+
+
+djcelery.setup_loader()
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(os.path.dirname(__file__)))
 
@@ -130,6 +134,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'djcelery',
     'stream',
 )
 
@@ -161,3 +166,28 @@ LOGGING = {
         },
     }
 }
+
+# Redis configuration
+REDIS_PORT=6379
+REDIS_HOST = "127.0.0.1"
+REDIS_DB = 0
+REDIS_CONNECT_RETRY = True
+
+## Celery configuration
+
+# Broker configuration
+BROKER_HOST = "127.0.0.1"
+BROKER_BACKEND="redis"
+BROKER_USER = ""
+BROKER_PASSWORD =""
+BROKER_VHOST = "0"
+
+# Celery Redis configuration
+CELERY_SEND_EVENTS=True
+CELERY_RESULT_BACKEND='redis'
+CELERY_REDIS_HOST='127.0.0.1'
+CELERY_REDIS_PORT=6379
+CELERY_REDIS_DB = 0
+CELERY_TASK_RESULT_EXPIRES = 10
+CELERYBEAT_SCHEDULER="djcelery.schedulers.DatabaseScheduler"
+CELERY_ALWAYS_EAGER=False
